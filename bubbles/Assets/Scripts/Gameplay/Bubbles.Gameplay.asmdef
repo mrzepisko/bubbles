@@ -1,0 +1,17 @@
+{
+    "name": "Bubbles.Gameplay",
+    "references": [
+        "Zenject",
+        "HexGrid",
+        "Bubbles.Config",
+        "Bubbles.Core"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

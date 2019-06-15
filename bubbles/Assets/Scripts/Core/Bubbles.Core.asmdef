@@ -1,0 +1,16 @@
+{
+    "name": "Bubbles.Core",
+    "references": [
+        "Zenject",
+        "HexGrid",
+        "Bubbles.Config"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

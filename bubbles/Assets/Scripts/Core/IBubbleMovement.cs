@@ -1,5 +1,7 @@
+using UnityEngine;
+
 namespace Bubbles.Core {
     public interface IBubbleMovement {
-        void ChangeTarget(Tile tile);
+        void MoveTowards(Vector3 target);
     }
 }

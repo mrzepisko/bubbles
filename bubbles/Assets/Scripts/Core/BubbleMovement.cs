@@ -12,12 +12,17 @@ namespace Bubbles.Core {
             moving = StartCoroutine(MoveTowardsSmooth(target));
         }
 
+        public void MoveTowards(Vector3 from, Vector3 to) {
+            Teleport(from);
+            MoveTowards(to);
+        }
+
         public void Teleport(Vector3 target) {
             StopMoving();
             transform.position = target;
         }
 
-        void StopMoving() {
+        public void StopMoving() {
             if (moving != null) {
                 StopCoroutine(moving);
             }

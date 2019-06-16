@@ -11,14 +11,16 @@ namespace Bubbles.Gameplay {
         
         private IBubbleSpawner bubbleSpawner;
         private IGridWrapper grid;
+        private IBubbleCollector collector;
 
         private Queue<Bubble> queue;
         private Bubble nextBubble;
 
         [Inject]
-        private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid) {
+        private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid, IBubbleCollector collector) {
             this.bubbleSpawner = bubbleSpawner;
             this.grid = grid;
+            this.collector = collector;
             queue = new Queue<Bubble>(QueueSize);
             Prepare();
         }
@@ -30,17 +32,18 @@ namespace Bubbles.Gameplay {
 
         private void Prepare() {
             for (int i = queue.Count; i < QueueSize; i++) {
-                queue.Enqueue(bubbleSpawner.Create());
+                queue.Enqueue(bubbleSpawner.CreateRandom());
             }
         }
 
         Bubble GetFromQueue() {
-            queue.Enqueue(bubbleSpawner.Create());
+            queue.Enqueue(bubbleSpawner.CreateRandom());
             return queue.Dequeue();
         }
         
         public void ShootAt(Tile tile) {
             if (grid.Attach(nextBubble, tile)) {
+                collector.Attached(nextBubble);
                 LoadCannon();   
             }
         }
@@ -51,13 +54,12 @@ namespace Bubbles.Gameplay {
 
         void LoadCannon() {
             var fromQueue = GetFromQueue();
-            if (nextBubble == null) {
-                fromQueue.Movement.Teleport(transform.position); //first bubble
-            } else {
+            if (nextBubble != null) {
                 fromQueue.Animator.LoadedOnCannon();
             }
+
             nextBubble = fromQueue;
-            nextBubble.Movement.MoveTowards(transform.position);
+            nextBubble.Movement.MoveTowards(queueHook.position, transform.position);
             var nextFromQueue = queue.Peek();
             nextFromQueue.Movement.Teleport(queueHook.position);
             nextFromQueue.Animator.EnterQueue();

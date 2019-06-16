@@ -1,5 +1,7 @@
 namespace Bubbles.Core.Abstract {
     public interface IBubbleSpawner {
-        Bubble Create();
+        Bubble CreateRandom();
+        Bubble Create(IBubbleScore score);
+        void Return(Bubble bubble);
     }
 }

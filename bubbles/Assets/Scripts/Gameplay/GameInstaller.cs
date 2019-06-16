@@ -24,6 +24,9 @@ namespace Bubbles.Gameplay {
             Container.Bind<IGridWrapper>()
                 .To<GridWrapper>()
                 .AsSingle();
+            Container.Bind<IBubbleCollector>()
+                .To<BubbleCollector>()
+                .AsSingle();
             Container.Bind<IScoreManager>()
                 .To<ScoreManager>()
                 .AsSingle();

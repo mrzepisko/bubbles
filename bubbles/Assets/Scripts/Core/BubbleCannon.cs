@@ -7,8 +7,6 @@ namespace Bubbles.Core {
     public class BubbleCannon : IBubbleCannon {
         const int QueueSize = 3;
         
-        
-        
         private IBubbleSpawner bubbleSpawner;
         private IGridWrapper grid;
 
@@ -24,12 +22,12 @@ namespace Bubbles.Core {
 
         private void Prepare() {
             for (int i = queue.Count; i < QueueSize; i++) {
-                queue.Enqueue(bubbleSpawner.Create());
+                queue.Enqueue(bubbleSpawner.CreateRandom());
             }
         }
 
         Bubble GetFromQueue() {
-            queue.Enqueue(bubbleSpawner.Create());
+            queue.Enqueue(bubbleSpawner.CreateRandom());
             return queue.Dequeue();
         }
         

@@ -14,11 +14,18 @@ namespace Bubbles.Core {
             this.bubbleConfig = bubbleConfig;
         }
 
-        public Bubble Create() {
+        public Bubble CreateRandom() {
             var value = Random.Range(scoreManager.BaseExponent, scoreManager.MaxExponent);
-            var bubble = bubblePool.Spawn(new BubbleScore(value));
+            return Create(new BubbleScore(value));
+        }
+
+        public Bubble Create(IBubbleScore score) {
+            var bubble = bubblePool.Spawn(score);
             return bubble;
         }
-        
+
+        public void Return(Bubble bubble) {
+            bubblePool.Despawn(bubble);
+        }
     }
 }

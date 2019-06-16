@@ -118,7 +118,7 @@ public class HexGrid : MonoBehaviour {
     }
 
     public Tile Neighbour(Tile tile, HexDirection direction) {
-        if (HexDirection.None == direction) return null;
+        if (HexDirection.None == direction || tile == null) return null;
         CubeIndex o = tile.index + direction;
         if (grid.TryGetValue(o.ToString(), out var ret)) {
             return ret;

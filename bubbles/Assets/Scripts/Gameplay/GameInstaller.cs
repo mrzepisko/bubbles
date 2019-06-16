@@ -10,12 +10,13 @@ namespace Bubbles.Gameplay {
         [SerializeField] private int bubblePoolSize = 50;
         [SerializeField] private BubbleConfig visualConfig;
         [SerializeField] private Bubble bubblePrototype;
+        [SerializeField] private int startingExponent = 2, maxDistance = 8;
         
         
         public override void InstallBindings() {
+            BindConfigs();
             BindControls();
             BindPools();
-            BindConfigs();
             BindLogic();
             BindFromHierarchy();
         }
@@ -23,6 +24,9 @@ namespace Bubbles.Gameplay {
         private void BindLogic() {
             Container.Bind<IGridWrapper>()
                 .To<GridWrapper>()
+                .AsSingle();
+            Container.Bind<IScoreCalculator>()
+                .To<ScoreCalculator>()
                 .AsSingle();
             Container.Bind<IBubbleCollector>()
                 .To<BubbleCollector>()
@@ -61,6 +65,10 @@ namespace Bubbles.Gameplay {
             Container.Bind<BubbleConfig>()
                 .FromInstance(visualConfig)
                 .AsSingle();
+            Container.Bind<ScoreRange>()
+                .FromNew()
+                .AsSingle()
+                .WithArguments(startingExponent, maxDistance);
         }
 
         private void BindPools() {

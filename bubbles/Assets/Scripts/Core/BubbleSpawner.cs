@@ -4,18 +4,16 @@ using UnityEngine;
 
 namespace Bubbles.Core {
     public class BubbleSpawner : IBubbleSpawner {
-        private IScoreManager scoreManager;
         private Bubble.Pool bubblePool;
-        private BubbleConfig bubbleConfig;
-
-        public BubbleSpawner(IScoreManager scoreManager, Bubble.Pool bubblePool, BubbleConfig bubbleConfig) {
-            this.scoreManager = scoreManager;
+        private ScoreRange scoreRange;
+        
+        public BubbleSpawner(Bubble.Pool bubblePool, ScoreRange scoreRange) {
             this.bubblePool = bubblePool;
-            this.bubbleConfig = bubbleConfig;
+            this.scoreRange = scoreRange;
         }
 
         public Bubble CreateRandom() {
-            var value = Random.Range(scoreManager.BaseExponent, scoreManager.MaxExponent);
+            var value = Random.Range(scoreRange.BaseExponent, scoreRange.MaxExponent);
             return Create(new BubbleScore(value));
         }
 

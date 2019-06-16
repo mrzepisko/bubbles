@@ -11,16 +11,16 @@ namespace Bubbles.Gameplay {
         
         private IBubbleSpawner bubbleSpawner;
         private IGridWrapper grid;
-        private IBubbleCollector collector;
+        private IScoreManager scoreManager;
 
         private Queue<Bubble> queue;
         private Bubble nextBubble;
 
         [Inject]
-        private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid, IBubbleCollector collector) {
+        private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid, IScoreManager scoreManager) {
             this.bubbleSpawner = bubbleSpawner;
             this.grid = grid;
-            this.collector = collector;
+            this.scoreManager = scoreManager;
             queue = new Queue<Bubble>(QueueSize);
             Prepare();
         }
@@ -43,7 +43,7 @@ namespace Bubbles.Gameplay {
         
         public void ShootAt(Tile tile) {
             if (grid.Attach(nextBubble, tile)) {
-                collector.Attached(nextBubble);
+                scoreManager.Attached(nextBubble);
                 LoadCannon();   
             }
         }

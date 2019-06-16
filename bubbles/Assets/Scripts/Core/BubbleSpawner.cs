@@ -17,8 +17,6 @@ namespace Bubbles.Core {
         public Bubble Create() {
             var value = Random.Range(scoreManager.BaseExponent, scoreManager.MaxExponent);
             var bubble = bubblePool.Spawn(new BubbleScore(value));
-            var config = bubbleConfig.Get(value);
-            bubble.Configure(config);
             return bubble;
         }
         

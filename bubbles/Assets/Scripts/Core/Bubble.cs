@@ -4,47 +4,45 @@ using UnityEngine;
 using Zenject;
 
 namespace Bubbles.Core {
+    [DefaultExecutionOrder(-1)]
     public partial class Bubble : MonoBehaviour {
         [Header("Visual")] [SerializeField] private SpriteRenderer sprite;
 
         
-        
-        private BubbleScore score;
         private IBubbleMovement movement;
         private IBubbleCollector collector;
+        private IBubbleAnimator animator;
+        private IBubbleView view;
 
         private BubbleConfigItem config;
-        private Tile attachedTo;
 
-        public BubbleConfigItem Config => config;
-        public Tile AttachedTo => attachedTo;
+        public IBubbleMovement Movement => movement;
+        public IBubbleAnimator Animator => animator;
+        public IBubbleView View => view;
 
 
-        private void Awake() {
-            movement = GetComponent<IBubbleMovement>();
-            collector = GetComponent<IBubbleCollector>();
+        [Inject]
+        private void Construct(IBubbleMovement movement, IBubbleCollector collector, IBubbleAnimator animator, IBubbleView view) {
+            this.movement = movement;
+            this.collector = collector;
+            this.animator = animator;
+            this.view = view;
         }
 
-        public void SetTarget(Tile tile, bool instant = false) {
-            attachedTo = tile;
-            collector?.InsertInto(tile);
+        public void SetTarget(Vector3 position, bool instant = false) {
+            //collector?.InsertInto(tile);
 
             if (movement != null) {
                 if (instant) {
-                    movement.Teleport(tile.transform.position);
+                    movement.Teleport(position);
                 } else {
-                    movement.MoveTowards(tile.transform.position);
+                    movement.MoveTowards(position);
                 }
             }
         }
 
-        public void Configure(BubbleConfigItem conf) {
-            config = conf;
-            sprite.color = conf.Background;
-        }
-
-        public void Teleport(Vector3 position) {
-            movement.Teleport(position);
+        private void SetScore(IBubbleScore score) {
+            view.Refresh(score);
         }
     }
 }

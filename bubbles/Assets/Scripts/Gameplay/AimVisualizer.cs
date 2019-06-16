@@ -54,7 +54,7 @@ namespace Bubbles.Gameplay {
 
         private void Refresh() {
             lineRenderer.SetPositions(aimManager.Steps);
-            var color = cannon.Peek().Config.Background;
+            var color = cannon.LoadedBubble().View.Current.Background;
             color.a = bubbleAlpha;
             bubble.color = color;
 

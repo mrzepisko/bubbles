@@ -7,15 +7,18 @@ using Zenject;
 namespace Bubbles.Gameplay {
     public class BubbleCannonQueue : MonoBehaviour, IBubbleCannon {
         const int QueueSize = 3;
+        [SerializeField] private Transform queueHook;
         
         private IBubbleSpawner bubbleSpawner;
+        private IGridWrapper grid;
 
         private Queue<Bubble> queue;
         private Bubble nextBubble;
 
         [Inject]
-        private void Construct(IBubbleSpawner bubbleSpawner) {
+        private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid) {
             this.bubbleSpawner = bubbleSpawner;
+            this.grid = grid;
             queue = new Queue<Bubble>(QueueSize);
             Prepare();
         }
@@ -37,17 +40,27 @@ namespace Bubbles.Gameplay {
         }
         
         public void ShootAt(Tile tile) {
-            nextBubble.SetTarget(tile);
-            LoadCannon();
+            if (grid.Attach(nextBubble, tile)) {
+                LoadCannon();   
+            }
         }
 
-        public Bubble Peek() {
-            return queue.Peek();
+        public Bubble LoadedBubble() {
+            return nextBubble;
         }
 
         void LoadCannon() {
-            nextBubble = GetFromQueue();
-            nextBubble.Teleport(transform.position);
+            var fromQueue = GetFromQueue();
+            if (nextBubble == null) {
+                fromQueue.Movement.Teleport(transform.position); //first bubble
+            } else {
+                fromQueue.Animator.LoadedOnCannon();
+            }
+            nextBubble = fromQueue;
+            nextBubble.Movement.MoveTowards(transform.position);
+            var nextFromQueue = queue.Peek();
+            nextFromQueue.Movement.Teleport(queueHook.position);
+            nextFromQueue.Animator.EnterQueue();
         }
     }
 }

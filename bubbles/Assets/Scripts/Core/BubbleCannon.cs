@@ -7,12 +7,14 @@ namespace Bubbles.Core {
     public class BubbleCannon : IBubbleCannon {
         const int QueueSize = 3;
         
+        
+        
         private IBubbleSpawner bubbleSpawner;
-        private IGridManager grid;
+        private IGridWrapper grid;
 
         private Queue<Bubble> queue;
 
-        public BubbleCannon(IBubbleSpawner bubbleSpawner, IGridManager grid) {
+        public BubbleCannon(IBubbleSpawner bubbleSpawner, IGridWrapper grid) {
             this.bubbleSpawner = bubbleSpawner;
             this.grid = grid;
             queue = new Queue<Bubble>(QueueSize);
@@ -33,10 +35,10 @@ namespace Bubbles.Core {
         
         public void ShootAt(Tile tile) {
             var bubble = GetFromQueue();
-            bubble.SetTarget(tile);
+            grid.Attach(bubble, tile);
         }
 
-        public Bubble Peek() {
+        public Bubble LoadedBubble() {
             return queue.Peek();
         }
     }

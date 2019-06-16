@@ -21,6 +21,9 @@ namespace Bubbles.Gameplay {
         }
 
         private void BindLogic() {
+            Container.Bind<IGridWrapper>()
+                .To<GridWrapper>()
+                .AsSingle();
             Container.Bind<IScoreManager>()
                 .To<ScoreManager>()
                 .AsSingle();

@@ -5,10 +5,12 @@ namespace Bubbles.Core {
         private const int InitialRows = 4;
         private HexGrid grid;
         private IBubbleSpawner spawner;
+        private IGridWrapper gridWrapper;
 
-        public GridManager(HexGrid grid, IBubbleSpawner spawner) {
+        public GridManager(HexGrid grid, IBubbleSpawner spawner, IGridWrapper gridWrapper) {
             this.grid = grid;
             this.spawner = spawner;
+            this.gridWrapper = gridWrapper;
         }
 
         public void FillGrid() {
@@ -23,7 +25,7 @@ namespace Bubbles.Core {
             Tile tile = grid.TileAt(q, r);
             while (tile != null) {
                 var bubble = spawner.Create();
-                bubble.SetTarget(tile, true);
+                gridWrapper.Insert(bubble, tile);
                 tile = grid.Neighbour(tile, HexDirection.E);
             }
         }

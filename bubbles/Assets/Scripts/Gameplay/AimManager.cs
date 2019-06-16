@@ -12,6 +12,7 @@ namespace Bubbles.Gameplay {
         private IBubbleCannon cannon;
         private IUserInput input;
         private HexGrid grid;
+        private IGridWrapper gridWrapper;
 
         private Vector3[] steps;
         private Tile futureTile;
@@ -20,10 +21,11 @@ namespace Bubbles.Gameplay {
         public Tile FutureTile => futureTile;
 
         [Inject]
-        private void Construct(IBubbleCannon cannon, IUserInput input, HexGrid grid) {
+        private void Construct(IBubbleCannon cannon, IUserInput input, HexGrid grid, IGridWrapper gridWrapper) {
             this.cannon = cannon;
             this.input = input;
             this.grid = grid;
+            this.gridWrapper = gridWrapper;
             steps = new Vector3[3];
         }
 
@@ -99,7 +101,8 @@ namespace Bubbles.Gameplay {
         private Tile SelectNeighbour(RaycastHit hit) {
             var offset = (hit.point - hit.transform.position).x;
             var dir = offset < 0 ? HexDirection.SE : HexDirection.SW;
-            var tileHit = hit.transform.GetComponentInParent<Bubble>().AttachedTo;
+            var bubble = hit.transform.GetComponentInParent<Bubble>();
+            var tileHit = gridWrapper.Get(bubble);
             return grid.Neighbour(tileHit, dir);
         }
 

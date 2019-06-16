@@ -15,7 +15,7 @@ namespace Bubbles.Gameplay {
 
         private Vector3[] steps;
         private Tile futureTile;
-
+        
         public Vector3[] Steps => steps;
         public Tile FutureTile => futureTile;
 

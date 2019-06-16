@@ -39,18 +39,20 @@ namespace Bubbles.Gameplay {
             this.cannon = cannon;
         }
 
-        public void Show() {
+        private void Show() {
             lineRenderer.gameObject.SetActive(true);
-            bubble.transform.position = aimManager.FutureTile.transform.position;
             bubble.gameObject.SetActive(true);
+            if (aimManager.FutureTile) {
+                bubble.transform.position = aimManager.FutureTile.transform.position;
+            }
         }
 
-        public void Hide() {
+        private void Hide() {
             lineRenderer.gameObject.SetActive(false);
             bubble.gameObject.SetActive(false);
         }
 
-        public void Refresh() {
+        private void Refresh() {
             lineRenderer.SetPositions(aimManager.Steps);
             var color = cannon.Peek().Config.Background;
             color.a = bubbleAlpha;

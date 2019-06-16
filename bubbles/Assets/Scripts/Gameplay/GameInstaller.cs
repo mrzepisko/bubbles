@@ -16,7 +16,11 @@ namespace Bubbles.Gameplay {
             BindControls();
             BindPools();
             BindConfigs();
-            
+            BindLogic();
+            BindFromHierarchy();
+        }
+
+        private void BindLogic() {
             Container.Bind<IScoreManager>()
                 .To<ScoreManager>()
                 .AsSingle();
@@ -26,19 +30,14 @@ namespace Bubbles.Gameplay {
             Container.Bind<IGridManager>()
                 .To<GridManager>()
                 .AsSingle();
-            Container.Bind<IBubbleCannon>()
-                .To<BubbleCannon>()
-                .AsSingle();
-
-            Container.Bind<AimManager>()
-                .FromComponentInHierarchy(false)
-                .WhenInjectedInto<AimVisualizer>();
-            
-            BindFromHierarchy();
         }
 
         private void BindFromHierarchy() {
             Container.Bind<Camera>()
+                .FromComponentInHierarchy(false)
+                .AsSingle();
+            Container.Bind<IBubbleCannon>()
+                .To<BubbleCannonQueue>()
                 .FromComponentInHierarchy(false)
                 .AsSingle();
             Container.Bind<HexGrid>()
@@ -47,6 +46,9 @@ namespace Bubbles.Gameplay {
             Container.Bind<Go>()
                 .FromComponentInHierarchy(false)
                 .AsSingle();
+            Container.Bind<AimManager>()
+                .FromComponentInHierarchy(false)
+                .WhenInjectedInto<AimVisualizer>();
         }
 
         private void BindConfigs() {
@@ -56,10 +58,12 @@ namespace Bubbles.Gameplay {
         }
 
         private void BindPools() {
+            GameObject pool = new GameObject(NameBubblePool);
+            pool.transform.position = Vector3.right * 200f;
             Container.BindMemoryPool<Bubble, Bubble.Pool>()
                 .WithInitialSize(bubblePoolSize)
                 .FromComponentInNewPrefab(bubblePrototype)
-                .UnderTransformGroup(NameBubblePool)
+                .UnderTransform(pool.transform)
                 .AsSingle();
         }
 

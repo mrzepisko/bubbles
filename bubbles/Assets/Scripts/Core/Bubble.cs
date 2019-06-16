@@ -42,5 +42,9 @@ namespace Bubbles.Core {
             config = conf;
             sprite.color = conf.Background;
         }
+
+        public void Teleport(Vector3 position) {
+            movement.Teleport(position);
+        }
     }
 }

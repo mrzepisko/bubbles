@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Bubbles.Core {
+namespace Bubbles.Core.Abstract {
     public interface IUserInput {
         event System.Action<Vector3> ButtonDown;
         event System.Action<Vector3> ButtonHold;

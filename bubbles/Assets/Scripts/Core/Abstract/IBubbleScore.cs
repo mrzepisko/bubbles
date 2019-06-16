@@ -1,4 +1,4 @@
-namespace Bubbles.Core {
+namespace Bubbles.Core.Abstract {
     public interface IBubbleScore {
         
     }

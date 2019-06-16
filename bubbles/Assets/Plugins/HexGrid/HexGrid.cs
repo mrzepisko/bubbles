@@ -17,13 +17,14 @@ public class HexGrid : MonoBehaviour {
     //Generation Options
     public bool addColliders = true;
     public bool drawOutlines = true;
+    public bool fill = true;
     public Material lineMaterial;
 
     //Internal variables
     private Dictionary<string, Tile> grid = new Dictionary<string, Tile>();
     private Mesh hexMesh = null;
 
-    private CubeIndex[] directions =
+    internal static readonly CubeIndex[] directions =
         new CubeIndex[] {
             new CubeIndex(1, -1, 0),
             new CubeIndex(1, 0, -1),
@@ -73,10 +74,21 @@ public class HexGrid : MonoBehaviour {
 
     public void ClearGrid() {
         Debug.Log("Clearing grid...");
-        foreach (var tile in grid)
-            DestroyImmediate(tile.Value.gameObject, false);
+        foreach (var tile in grid.Values) {
+            if (tile)
+                DestroyImmediate(tile.gameObject, false);   
+        }
 
         grid.Clear();
+
+        var tiles = GetComponentsInChildren<Tile>();
+        foreach (var tile in tiles) {
+            if (Application.isPlaying) {
+                Destroy(tile.gameObject);
+            } else {
+                DestroyImmediate(tile.gameObject);
+            }
+        }
     }
 
     public Tile TileAt(CubeIndex index) {
@@ -95,15 +107,24 @@ public class HexGrid : MonoBehaviour {
 
     public List<Tile> Neighbours(Tile tile) {
         List<Tile> ret = new List<Tile>();
-        CubeIndex o;
-
-        for (int i = 0; i < 6; i++) {
-            o = tile.index + directions[i];
-            if (grid.ContainsKey(o.ToString()))
-                ret.Add(grid[o.ToString()]);
+        foreach (var direction in (HexDirection[])System.Enum.GetValues(typeof(HexDirection))) {
+            var t = Neighbour(tile, direction);
+            if (t != null) {
+                ret.Add(t);
+            }
         }
 
         return ret;
+    }
+
+    public Tile Neighbour(Tile tile, HexDirection direction) {
+        if (HexDirection.None == direction) return null;
+        CubeIndex o = tile.index + direction;
+        if (grid.TryGetValue(o.ToString(), out var ret)) {
+            return ret;
+        } else {
+            return null;
+        }
     }
 
     public List<Tile> Neighbours(CubeIndex index) {
@@ -297,7 +318,7 @@ public class HexGrid : MonoBehaviour {
     }
 
     private Tile CreateHexGO(Vector3 postion, string name) {
-        GameObject go = new GameObject(name, typeof(MeshFilter), typeof(MeshRenderer), typeof(Tile));
+        GameObject go = new GameObject(name, typeof(Tile));
 
         if (addColliders)
             go.AddComponent<MeshCollider>();
@@ -305,18 +326,30 @@ public class HexGrid : MonoBehaviour {
         if (drawOutlines)
             go.AddComponent<LineRenderer>();
 
-        go.transform.position = postion;
+        if (fill) {
+            go.AddComponent<MeshRenderer>();
+            go.AddComponent<MeshFilter>();
+        }
+
+        go.transform.position = transform.TransformPoint(postion);
+        go.transform.rotation = transform.rotation;
         go.transform.parent = this.transform;
 
         Tile tile = go.GetComponent<Tile>();
         MeshFilter fil = go.GetComponent<MeshFilter>();
         MeshRenderer ren = go.GetComponent<MeshRenderer>();
 
-        fil.sharedMesh = hexMesh;
 
-        ren.material = (hexMaterial)
-            ? hexMaterial
-            : UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+        if (fill) {
+            fil.sharedMesh = hexMesh;
+            #if UNITY_EDITOR
+            ren.material = (hexMaterial)
+                ? hexMaterial
+                : UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
+            #else
+            ren.material = hexMaterial;
+            #endif
+        }
 
         if (addColliders) {
             MeshCollider col = go.GetComponent<MeshCollider>();
@@ -327,6 +360,7 @@ public class HexGrid : MonoBehaviour {
             LineRenderer lines = go.GetComponent<LineRenderer>();
             lines.useLightProbes = false;
             lines.receiveShadows = false;
+            lines.useWorldSpace = false;
 
             lines.SetWidth(0.1f, 0.1f);
             lines.SetColors(Color.black, Color.black);
@@ -356,4 +390,14 @@ public enum MapShape {
 public enum HexOrientation {
     Pointy,
     Flat
+}
+
+public enum HexDirection {
+    None,
+    NE,
+    E,
+    SE,
+    SW,
+    W,
+    NW,
 }

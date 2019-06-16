@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583589ece935b934b983d020a2baa9c9, type: 3}
   m_Name: DefaultConfig
   m_EditorClassIdentifier: 
+  maxDistance: 10
   items:
-  - background: {r: 0.13333334, g: 0.9176471, b: 0.79215693, a: 0}
-  - background: {r: 0.7019608, g: 0.11764707, b: 0.43529415, a: 0}
-  - background: {r: 0.9333334, g: 0.3529412, b: 0.3529412, a: 0}
-  - background: {r: 1, g: 0.61960787, b: 0.454902, a: 0}
-  - background: {r: 0.96470594, g: 0.93725497, b: 0.59607846, a: 0}
-  - background: {r: 0.10588236, g: 0.49803925, b: 0.7411765, a: 0}
-  - background: {r: 0.8941177, g: 0, b: 0.48627454, a: 0}
-  - background: {r: 1, g: 0.38823533, b: 0.21568629, a: 0}
-  - background: {r: 0, g: 0.2901961, b: 0.18431373, a: 0}
-  - background: {r: 1, g: 0.6392157, b: 0.13725491, a: 0}
+  - background: {r: 0.67115533, g: 0.2991723, b: 0.764151, a: 1}
+  - background: {r: 0.909804, g: 0.3529412, b: 0.53333336, a: 1}
+  - background: {r: 0.89019614, g: 0.34509805, b: 0.21568629, a: 1}
+  - background: {r: 0.9960785, g: 0.7294118, b: 0.1764706, a: 1}
+  - background: {r: 0.882353, g: 0.5137255, b: 0.2509804, a: 1}
+  - background: {r: 0.45882356, g: 0.8000001, b: 0.34509805, a: 1}
+  - background: {r: 0.3137255, g: 0.81568635, b: 0.64705884, a: 1}
+  - background: {r: 0.4039216, g: 0.73333335, b: 0.8980393, a: 1}
+  - background: {r: 0.4431373, g: 0.5686275, b: 0.83921576, a: 1}
+  - background: {r: 0.9098039, g: 0.5977412, b: 0.6988319, a: 1}

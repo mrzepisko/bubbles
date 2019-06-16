@@ -5,19 +5,12 @@ namespace Bubbles.Config {
     public class BubbleConfig : ScriptableObject {
         [Tooltip("Max exponent difference between bubble values")]
         [SerializeField] private int maxDistance = 10;
-        [SerializeField] private Item[] items;
+        [SerializeField] private BubbleConfigItem[] items;
 
         public int MaxDistance => maxDistance;
 
-        public Item Get(int exponent) {
+        public BubbleConfigItem Get(int exponent) {
             return items[exponent % 10];
-        }
-
-        [System.Serializable]
-        public struct Item {
-            [SerializeField] private Color background;
-
-            public Color Background => background;
         }
     }
 }

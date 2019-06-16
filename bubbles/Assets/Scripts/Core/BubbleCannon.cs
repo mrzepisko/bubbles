@@ -1,58 +1,43 @@
 using System.Collections.Generic;
+using Bubbles.Core.Abstract;
 using UnityEngine;
 using Zenject;
 
 namespace Bubbles.Core {
-    public class BubbleCannon : MonoBehaviour {
-        [SerializeField] private Transform shootPoint;
-        [SerializeField] private int queueSize = 3;
+    public class BubbleCannon : IBubbleCannon {
+        const int QueueSize = 3;
         
-        private Bubble.Pool bubblePool;
-        private IUserInput input;
+        private IBubbleSpawner bubbleSpawner;
+        private IGridManager grid;
 
         private Queue<Bubble> queue;
 
-        private void Awake() {
-            queue = new Queue<Bubble>(queueSize);
+        public BubbleCannon(IBubbleSpawner bubbleSpawner, IGridManager grid) {
+            this.bubbleSpawner = bubbleSpawner;
+            this.grid = grid;
+            queue = new Queue<Bubble>(QueueSize);
+            Prepare();
         }
 
-        private void OnEnable() {
-            input.ButtonUp += InputOnButtonUp;
-        }
 
-        private void OnDisable() {
-            input.ButtonUp -= InputOnButtonUp;
-        }
-        
-        [Inject]
-        private void Construct(IUserInput input, Bubble.Pool bubblePool) {
-            this.input = input;
-            this.bubblePool = bubblePool;
-        }
-
-        private void InputOnButtonUp(Vector3 position) {
-            var direction = (position - shootPoint.position).normalized;
-            ShootAt(direction);
-        }
-
-        public BubbleCannon(Bubble.Pool bubblePool) {
-            this.bubblePool = bubblePool;
-        }
-
-        public void Prepare() {
-            for (int i = queue.Count; i < queueSize; i++) {
-                queue.Enqueue(bubblePool.Spawn());
+        private void Prepare() {
+            for (int i = queue.Count; i < QueueSize; i++) {
+                queue.Enqueue(bubbleSpawner.Create());
             }
         }
+
+        Bubble GetFromQueue() {
+            queue.Enqueue(bubbleSpawner.Create());
+            return queue.Dequeue();
+        }
         
-        public void ShootAt(Vector3 direction) {
-            
-            var bubble = bubblePool.Spawn();
-            bubble.transform.position = shootPoint.position;
-            bubble.SetTarget(null);
+        public void ShootAt(Tile tile) {
+            var bubble = GetFromQueue();
+            bubble.SetTarget(tile);
         }
 
-        void VectorToCubeDirection(Vector3 direction) {
+        public Bubble Peek() {
+            return queue.Peek();
         }
     }
 }

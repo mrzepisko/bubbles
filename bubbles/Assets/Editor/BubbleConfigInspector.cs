@@ -28,7 +28,9 @@ public class BubbleConfigInspector : Editor {
         rColor.x += rLabel.width;
         rColor.width = rect.width - rLabel.width;
         EditorGUI.LabelField(rLabel, $"2^{index}");
-        colorProperty.colorValue = EditorGUI.ColorField(rColor, GUIContent.none, colorProperty.colorValue, true, false, false);
+        var color = EditorGUI.ColorField(rColor, GUIContent.none, colorProperty.colorValue, true, false, false);
+        color.a = 1f;
+        colorProperty.colorValue = color;
         rl.serializedProperty.serializedObject.ApplyModifiedProperties();
     }
 

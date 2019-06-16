@@ -200,4 +200,33 @@ public struct CubeIndex {
 	public override string ToString () {
 		return string.Format("[" + x + "," + y + "," + z + "]");
 	}
+
+	public static implicit operator CubeIndex(HexDirection direction) {
+		if (direction == HexDirection.None) {
+			return new CubeIndex();
+		}
+		var index = 0;
+		switch (direction) {
+			case HexDirection.NE:
+				index = 0;
+				break;
+			case HexDirection.E:
+				index = 1;
+				break;
+			case HexDirection.SE:
+				index = 2;
+				break;
+			case HexDirection.SW:
+				index = 3;
+				break;
+			case HexDirection.W:
+				index = 4;
+				break;
+			case HexDirection.NW:
+				index = 5;
+				break;
+		}
+
+		return HexGrid.directions[index];
+	}
 }

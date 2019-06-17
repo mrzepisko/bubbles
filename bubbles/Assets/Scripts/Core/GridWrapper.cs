@@ -11,15 +11,13 @@ namespace Bubbles.Core {
         private Dictionary<Tile, Bubble> t2b;
         private Dictionary<Bubble, Tile> b2t;
 
-        private HexGrid grid;
-        private Camera camera;
+        private readonly HexGrid grid;
 
         public Tile Get(Bubble bubble) => Get(b2t, bubble);
         public Bubble Get(Tile tile) => Get(t2b, tile);
 
-        public GridWrapper(HexGrid grid, Camera camera) {
+        public GridWrapper(HexGrid grid) {
             this.grid = grid;
-            this.camera = camera;
             t2b = new Dictionary<Tile, Bubble>();
             b2t = new Dictionary<Bubble, Tile>();
         }

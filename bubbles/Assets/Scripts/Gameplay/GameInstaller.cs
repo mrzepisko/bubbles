@@ -11,7 +11,7 @@ namespace Bubbles.Gameplay {
         [SerializeField] private BubbleConfig visualConfig;
         [SerializeField] private Bubble bubblePrototype;
         [SerializeField] private FakeBubble fakeBubblePrototype;
-        [SerializeField] private int startingExponent = 2, maxDistance = 8;
+        [SerializeField] private int startingExponent = 2, maxDistance = 5, explosionDistance = 8, explosionsPerLevel = 10;
         
         
         public override void InstallBindings() {
@@ -23,6 +23,9 @@ namespace Bubbles.Gameplay {
         }
 
         private void BindLogic() {
+            Container.Bind<IDataManager>()
+                .To<DataManagerPrefs>()
+                .AsSingle();
             Container.Bind<IGridWrapper>()
                 .To<GridWrapper>()
                 .AsSingle();
@@ -77,7 +80,7 @@ namespace Bubbles.Gameplay {
             Container.Bind<ScoreRange>()
                 .FromNew()
                 .AsSingle()
-                .WithArguments(startingExponent, maxDistance);
+                .WithArguments(startingExponent, maxDistance, explosionDistance, explosionsPerLevel);
         }
 
         private void BindPools() {

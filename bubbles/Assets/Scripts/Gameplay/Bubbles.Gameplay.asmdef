@@ -2,6 +2,7 @@
     "name": "Bubbles.Gameplay",
     "references": [
         "Zenject",
+        "Unity.TextMeshPro",
         "HexGrid",
         "Bubbles.Config",
         "Bubbles.Core"

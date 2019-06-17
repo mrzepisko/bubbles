@@ -8,8 +8,8 @@ namespace Bubbles.Core {
         private const int RowWidth = 12;
 
 
-        private IBubbleSpawner spawner;
-        private IGridWrapper grid;
+        private readonly IBubbleSpawner spawner;
+        private readonly IGridWrapper grid;
         
         public GridManager(IBubbleSpawner spawner, IGridWrapper grid) {
             this.spawner = spawner;

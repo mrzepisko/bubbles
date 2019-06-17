@@ -25,9 +25,9 @@ namespace Bubbles.Gameplay {
         }
 
         public void Refresh(IBubbleScore score) {
-            current = config.Get(score.Value);
+            current = config.Get(score.Exponent);
             background.color = current.Background;
-            var valueStr = Mathf.Pow(2, score.Value % 10).ToString("0");
+            var valueStr = Mathf.Pow(2, score.Exponent % 10).ToString("0");
             var textConf = font[valueStr];
             var suffixConf =GetSuffix(score);
             text.sprite = textConf.Sprite;
@@ -40,7 +40,7 @@ namespace Bubbles.Gameplay {
         }
 
         private SpriteFontItem GetSuffix(IBubbleScore score) {
-            var check = score.Value / 10;
+            var check = score.Exponent / 10;
             string suffix;
             if (check < 1) {
                 suffix = null;

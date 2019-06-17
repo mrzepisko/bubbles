@@ -24,7 +24,7 @@ namespace Bubbles.Core {
 
             result.Add(bubble);
             Bubble[] scoreNeighbours = grid.Neighbours(bubble)
-                .Where(n => n != null && !result.Contains(n) && n.Score.Value.Equals(score.Value)).ToArray();
+                .Where(n => n != null && !result.Contains(n) && n.Score.Exponent.Equals(score.Exponent)).ToArray();
             foreach (var neighbour in scoreNeighbours) {
                 if (result.Contains(neighbour)) continue; // already checked
                 foreach (var childNeighbour in ScoreNeighbours(neighbour, result)) {

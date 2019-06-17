@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Bubbles.Core.Abstract {
     public class BubbleExploder : IBubbleExploder {
         private const int ExplosionRange = 2;
-        private IGridWrapper grid;
-        private IBubbleSpawner spawner;
+        private readonly IGridWrapper grid;
+        private readonly IBubbleSpawner spawner;
 
         public BubbleExploder(IGridWrapper grid, IBubbleSpawner spawner) {
             this.grid = grid;

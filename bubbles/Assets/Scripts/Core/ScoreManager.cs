@@ -56,9 +56,9 @@ namespace Bubbles.Core {
                 toDrop.StartCoroutine(DelayReturn(toDrop, DelayReturnTime));
             }
             
-            Debug.Log($"Collected {newBubble.Score} points");
+            Debug.Log($"Collected {score.PointsString} points");
 
-            if (newBubble.Score.Value > scoreRange.MaxExponent) {
+            if (newBubble.Score.Exponent > scoreRange.ExplosionExponent) {
                 exploder.Explode(newBubble);
             } else { //continue chain
                 Attached(newBubble);

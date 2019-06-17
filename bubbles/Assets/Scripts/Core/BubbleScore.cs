@@ -3,36 +3,46 @@ using UnityEngine;
 
 namespace Bubbles.Core {
     public class BubbleScore : IBubbleScore {
-        private int exponent;
+        private readonly int exponent;
+        
+        private long points;
 
-        public BubbleScore(int exponent) {
+        public BubbleScore(int exponent, int multiplier = 1) {
             this.exponent = exponent;
+            points = 2.Pow(exponent) * (long) multiplier;
         }
         
-        public int Value => exponent;
+        public int Exponent => exponent;
         public string ValueString => ToString();
+        public string PointsString => GetValue(points);
 
         public override string ToString() {
-            int exp = exponent % 10;
-            var val = Mathf.Pow(2, exp);
+            return PointsString;
+        }
+
+        private string GetValue(long points) {
+            return points.ToString("0");
+        }
+
+        private string GetSuffix(int exponent) {
             string suffix;
-            if (exponent < 10) {
+            var check = exponent / 3;
+            if (check < 1) {
                 suffix = "";
-            } else if (exponent < 20) {
+            } else if (check < 2) {
                 suffix = "k";
-            } else if (exponent < 30) {
+            } else if (check < 3) {
                 suffix = "M";
-            } else if (exponent < 40) {
+            } else if (check < 4) {
                 suffix = "G";
-            } else if (exponent < 50) {
+            } else if (check < 5) {
                 suffix = "T";
-            } else if (exponent < 60) {
+            } else if (check < 6) {
                 suffix = "P";
             } else {
                 suffix = "*";
             }
-
-            return $"{val:0}{suffix}";
+            return suffix;
         }
     }
 }

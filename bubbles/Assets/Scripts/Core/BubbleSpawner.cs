@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Bubbles.Core {
     public class BubbleSpawner : IBubbleSpawner {
-        private Bubble.Pool bubblePool;
+        private readonly Bubble.Pool bubblePool;
         //private FakeBubble.Pool fakeBubblePool;
-        private ScoreRange scoreRange;
+        private readonly ScoreRange scoreRange;
 
         public BubbleSpawner(Bubble.Pool bubblePool, /*FakeBubble.Pool fakeBubblePool, */ScoreRange scoreRange) {
             this.bubblePool = bubblePool;

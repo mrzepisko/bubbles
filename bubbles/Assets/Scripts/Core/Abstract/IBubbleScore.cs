@@ -1,6 +1,7 @@
 namespace Bubbles.Core.Abstract {
     public interface IBubbleScore {
-        int Value { get; }
+        int Exponent { get; }
         string ValueString { get; }
+        string PointsString { get; }
     }
 }

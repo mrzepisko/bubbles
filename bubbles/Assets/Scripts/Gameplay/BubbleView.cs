@@ -28,18 +28,18 @@ namespace Bubbles.Gameplay {
             current = config.Get(score.Value);
             background.color = current.Background;
             var valueStr = Mathf.Pow(2, score.Value % 10).ToString("0");
-            text.sprite = font[valueStr];
-            suffix.sprite = GetSuffix(score);
-            Vector3 offset = Vector3.zero;
-            if (score.Value >= 10) {
-                offset = Vector3.right * (score.ValueString.Length - 1) * suffixOffset / 2f;
-            }
+            var textConf = font[valueStr];
+            var suffixConf =GetSuffix(score);
+            text.sprite = textConf.Sprite;
+            suffix.sprite = suffixConf.Sprite;
 
-            text.transform.localPosition = -offset;
-            suffix.transform.localPosition = offset;
+            Vector3 textPosition = Vector3.right * -suffixConf.Width / 2f;
+            Vector3 suffixOffset = Vector3.right * (textConf.Width + suffixConf.Width) / 2f;
+            text.transform.localPosition = textPosition;
+            suffix.transform.position = text.transform.position + suffixOffset;// + suffixOffset;
         }
 
-        private Sprite GetSuffix(IBubbleScore score) {
+        private SpriteFontItem GetSuffix(IBubbleScore score) {
             var check = score.Value / 10;
             string suffix;
             if (check < 1) {

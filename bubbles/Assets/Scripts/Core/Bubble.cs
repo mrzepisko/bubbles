@@ -20,14 +20,17 @@ namespace Bubbles.Core {
         public IBubbleAnimator Animator => animator;
         public IBubbleView View => view;
         public IBubbleScore Score => score;
+        public Collider Collider => collider;
 
-
+        //TODO
+        private Collider collider;
         
         [Inject]
         private void Construct(IBubbleMovement movement, IBubbleAnimator animator, IBubbleView view) {
             this.movement = movement;
             this.animator = animator;
             this.view = view;
+            collider = GetComponentInChildren<Collider>();
         }
 
         public void SetTarget(Vector3 position, bool instant = false) {

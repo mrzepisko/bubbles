@@ -6,5 +6,6 @@ namespace Bubbles.Core.Abstract {
         void Teleport(Vector3 target);
         void MoveTowards(Vector3 from, Vector3 to);
         void StopMoving();
+        void Drop();
     }
 }

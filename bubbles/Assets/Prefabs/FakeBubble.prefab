@@ -116,9 +116,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2113538657
-  m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300030, guid: c3ae0963fa75f334c959502ee0ed2b62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -319,8 +319,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1997510377
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9a9f328192a64d740984f469a4b6baa6, type: 3}
   m_Color: {r: 0.5540875, g: 1, b: 0, a: 1}
@@ -342,14 +342,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4348877571544174182}
-  - component: {fileID: 3544707558982683738}
+  - component: {fileID: 4350864250535959088}
   - component: {fileID: 4395108223729680783}
-  - component: {fileID: 4348877571544174183}
   - component: {fileID: 2477012153829725360}
   - component: {fileID: 5362748078349674857}
   - component: {fileID: 4373835168578213222}
   m_Layer: 8
-  m_Name: Bubble
+  m_Name: FakeBubble
   m_TagString: Bubble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,7 +370,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3544707558982683738
+--- !u!114 &4350864250535959088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -380,15 +379,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4348877571544174180}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Script: {fileID: 11500000, guid: b507cd27a35d467798a5c8fa0c225c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 4395108223729680783}
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
 --- !u!114 &4395108223729680783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,19 +394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34abcdea6f74005b74356cef7111ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4348877571544174183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4348877571544174180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a0984b80fb94504b889e178611f5e7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprite: {fileID: 4348877571280511879}
 --- !u!114 &2477012153829725360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,9 +512,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2113538657
-  m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300046, guid: c3ae0963fa75f334c959502ee0ed2b62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

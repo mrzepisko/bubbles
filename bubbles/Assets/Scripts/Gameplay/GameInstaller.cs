@@ -7,9 +7,10 @@ using Zenject;
 namespace Bubbles.Gameplay {
     public class GameInstaller : MonoInstaller<GameInstaller> {
         private const string NameBubblePool = "__pool_bubbles";
-        [SerializeField] private int bubblePoolSize = 50;
+        [SerializeField] private int bubblePoolSize = 50, fakeBubblePoolSize = 20;
         [SerializeField] private BubbleConfig visualConfig;
         [SerializeField] private Bubble bubblePrototype;
+        [SerializeField] private FakeBubble fakeBubblePrototype;
         [SerializeField] private int startingExponent = 2, maxDistance = 8;
         
         
@@ -31,6 +32,9 @@ namespace Bubbles.Gameplay {
             Container.Bind<IBubbleCollector>()
                 .To<BubbleCollector>()
                 .AsSingle();
+            Container.Bind<IBubbleExploder>()
+                .To<BubbleExploder>()
+                .AsSingle();
             Container.Bind<IScoreManager>()
                 .To<ScoreManager>()
                 .AsSingle();
@@ -39,7 +43,12 @@ namespace Bubbles.Gameplay {
                 .AsSingle();
             Container.Bind<IGridManager>()
                 .To<GridManager>()
-                .AsSingle();
+                .AsSingle()
+                .WhenInjectedInto(typeof(Go), typeof(ScoreManager));
+            Container.Bind<IGridManager>()
+                .To<GridManagerTest>()
+                .AsSingle()
+                .WhenInjectedInto<GoTest>();
         }
 
         private void BindFromHierarchy() {
@@ -53,12 +62,12 @@ namespace Bubbles.Gameplay {
             Container.Bind<HexGrid>()
                 .FromComponentInHierarchy(false)
                 .AsSingle();
-            Container.Bind<Go>()
-                .FromComponentInHierarchy(false)
-                .AsSingle();
             Container.Bind<AimManager>()
                 .FromComponentInHierarchy(false)
                 .WhenInjectedInto<AimVisualizer>();
+            Container.Bind<Go>()
+                .FromComponentInHierarchy(false)
+                .AsSingle();
         }
 
         private void BindConfigs() {
@@ -72,13 +81,22 @@ namespace Bubbles.Gameplay {
         }
 
         private void BindPools() {
-            GameObject pool = new GameObject(NameBubblePool);
+            GameObject pool = new GameObject(NameBubblePool); 
             pool.transform.position = Vector3.right * 200f;
             Container.BindMemoryPool<Bubble, Bubble.Pool>()
                 .WithInitialSize(bubblePoolSize)
                 .FromComponentInNewPrefab(bubblePrototype)
                 .UnderTransform(pool.transform)
                 .AsSingle();
+//            GameObject pool2 = new GameObject(NameBubblePool);
+//            pool2.transform.position = pool.transform.position;
+//            Container.BindMemoryPool<FakeBubble, FakeBubble.Pool>()
+//                .WithInitialSize(fakeBubblePoolSize)
+//                .FromComponentInNewPrefab(fakeBubblePrototype)
+//                .UnderTransform(pool2.transform)
+//                .AsSingle().WithConcreteId("#fakeBubbles");
+//            Container.BindMemoryPool<Dupa, Dupa.Pool>()
+//                .AsSingle();
         }
 
         private void BindControls() {

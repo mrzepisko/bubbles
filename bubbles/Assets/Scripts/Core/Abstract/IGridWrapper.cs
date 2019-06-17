@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bubbles.Core.Abstract {
     public interface IGridWrapper {
@@ -8,10 +9,16 @@ namespace Bubbles.Core.Abstract {
         bool Insert(Bubble bubble, Tile tile);
         void Detach(Bubble bubble);
         Tile TileAt(int x, int z);
-        List<Tile> Neighbours(Tile tile);
+        Tile Nearest(Vector3 position);
+        List<Bubble> Neighbours(Tile tile);
         Tile Neighbour(Tile tile, HexDirection direction);
+        Bubble  Neighbour(Bubble bubble, HexDirection direction);
         List<Tile> TilesInRange(Tile center, int range);
-        
+        List<Bubble> BubblesInRange(Bubble center, int range);
         List<Bubble> Neighbours(Bubble bubble);
+        void MoveRows(int count);
+        List<Tile> Tiles { get; }
+        List<Bubble> Bubbles { get; }
+        int Rows { get; }
     }
 }

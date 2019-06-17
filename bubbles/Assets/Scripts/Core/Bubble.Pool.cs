@@ -10,9 +10,15 @@ namespace Bubbles.Core {
             }
 
             protected override void OnDespawned(Bubble item) {
-                base.OnDespawned(item);
+                item.collider.enabled = false;
                 item.transform.localPosition = Vector3.zero;
                 item.movement.StopMoving();
+                base.OnDespawned(item);
+            }
+
+            protected override void OnSpawned(Bubble item) {
+                item.collider.enabled = true;
+                base.OnSpawned(item);
             }
         }
     }

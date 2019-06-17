@@ -6,13 +6,13 @@ namespace Bubbles.UI {
     public class SpriteFont : ScriptableObject {
         [SerializeField] private SpriteFontItem [] items;
 
-        private Dictionary<string, Sprite> map;
+        private Dictionary<string, SpriteFontItem> map;
 
-        public Sprite Get(string s) {
+        public SpriteFontItem Get(string s) {
             if (s != null && map.TryGetValue(s, out var result)) {
                 return result;
             } else {
-                return null;
+                return default;
             }
         }
 
@@ -26,18 +26,19 @@ namespace Bubbles.UI {
         }
 
         private void Init() {
-            map = new Dictionary<string, Sprite>(items.Length);
+            map = new Dictionary<string, SpriteFontItem>(items.Length);
             foreach (var item in items) {
-                map.Add(item.Name, item.Sprite);
+                map.Add(item.Name, item);
             }
         }
-        public Sprite this[string s] => Get(s);
+        public SpriteFontItem this[string s] => Get(s);
     }
     
 
     [System.Serializable]
-    struct SpriteFontItem {
+    public struct SpriteFontItem {
         public string Name;
         public Sprite Sprite;
+        public float Width => Sprite ? (Sprite.rect.width / Sprite.pixelsPerUnit) : 0f;
     }
 }

@@ -205,9 +205,9 @@ TextureImporter:
       name: P
       rect:
         serializedVersion: 2
-        x: 269
+        x: 262
         y: 384
-        width: 64
+        width: 71
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -225,9 +225,9 @@ TextureImporter:
       name: T
       rect:
         serializedVersion: 2
-        x: 336
+        x: 333
         y: 384
-        width: 61
+        width: 64
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -245,9 +245,9 @@ TextureImporter:
       name: 016
       rect:
         serializedVersion: 2
-        x: 0
+        x: 23
         y: 277
-        width: 139
+        width: 93
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -265,9 +265,9 @@ TextureImporter:
       name: 032
       rect:
         serializedVersion: 2
-        x: 151
+        x: 158
         y: 277
-        width: 139
+        width: 132
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -305,9 +305,9 @@ TextureImporter:
       name: 128
       rect:
         serializedVersion: 2
-        x: 0
-        y: 168
-        width: 206
+        x: 23
+        y: 169
+        width: 163
         height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -345,9 +345,9 @@ TextureImporter:
       name: 512
       rect:
         serializedVersion: 2
-        x: 0
+        x: 26
         y: 63
-        width: 206
+        width: 161
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -365,9 +365,9 @@ TextureImporter:
       name: k
       rect:
         serializedVersion: 2
-        x: 230
+        x: 223
         y: 63
-        width: 58
+        width: 65
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -385,9 +385,9 @@ TextureImporter:
       name: G
       rect:
         serializedVersion: 2
-        x: 393
+        x: 386
         y: 63
-        width: 70
+        width: 77
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -405,9 +405,9 @@ TextureImporter:
       name: M
       rect:
         serializedVersion: 2
-        x: 294
+        x: 287
         y: 63
-        width: 90
+        width: 97
         height: 87
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -445,9 +445,9 @@ TextureImporter:
       name: ast
       rect:
         serializedVersion: 2
-        x: 399
+        x: 397
         y: 384
-        width: 47
+        width: 49
         height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

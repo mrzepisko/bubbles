@@ -57,7 +57,7 @@ namespace Bubbles.Gameplay {
             var color = cannon.LoadedBubble().View.Current.Background;
             color.a = bubbleAlpha;
             bubble.color = color;
-
+            bubble.enabled = aimManager.FutureTile != null;
         }
 
         private void Update() {

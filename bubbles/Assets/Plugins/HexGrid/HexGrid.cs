@@ -119,7 +119,7 @@ public class HexGrid : MonoBehaviour {
 
     public Tile Neighbour(Tile tile, HexDirection direction) {
         if (HexDirection.None == direction || tile == null) return null;
-        CubeIndex o = tile.index + direction;
+        CubeIndex o = tile.Index + direction;
         if (grid.TryGetValue(o.ToString(), out var ret)) {
             return ret;
         } else {
@@ -142,11 +142,14 @@ public class HexGrid : MonoBehaviour {
     public List<Tile> TilesInRange(Tile center, int range) {
         //Return tiles rnage steps from center, http://www.redblobgames.com/grids/hexagons/#range
         List<Tile> ret = new List<Tile>();
+        if (center == null) {
+            return ret;
+        }
         CubeIndex o;
 
         for (int dx = -range; dx <= range; dx++) {
             for (int dy = Mathf.Max(-range, -dx - range); dy <= Mathf.Min(range, -dx + range); dy++) {
-                o = new CubeIndex(dx, dy, -dx - dy) + center.index;
+                o = new CubeIndex(dx, dy, -dx - dy) + center.Index;
                 if (grid.ContainsKey(o.ToString()))
                     ret.Add(grid[o.ToString()]);
             }
@@ -172,7 +175,7 @@ public class HexGrid : MonoBehaviour {
     }
 
     public int Distance(Tile a, Tile b) {
-        return Distance(a.index, b.index);
+        return Distance(a.Index, b.Index);
     }
 
     #endregion
@@ -216,8 +219,8 @@ public class HexGrid : MonoBehaviour {
                 }
 
                 tile = CreateHexGO(pos, ("Hex[" + q + "," + r + "," + (-q - r).ToString() + "]"));
-                tile.index = new CubeIndex(q, r, -q - r);
-                grid.Add(tile.index.ToString(), tile);
+                tile.Index = new CubeIndex(q, r, -q - r);
+                grid.Add(tile.Index.ToString(), tile);
             }
         }
     }
@@ -237,8 +240,8 @@ public class HexGrid : MonoBehaviour {
                         pos.z = hexRadius * Mathf.Sqrt(3.0f) * (r + q / 2.0f);
 
                         tile = CreateHexGO(pos, ("Hex[" + q + "," + r + "," + (-q - r).ToString() + "]"));
-                        tile.index = new CubeIndex(q, r, -q - r);
-                        grid.Add(tile.index.ToString(), tile);
+                        tile.Index = new CubeIndex(q, r, -q - r);
+                        grid.Add(tile.Index.ToString(), tile);
                     }
                 }
 
@@ -252,8 +255,8 @@ public class HexGrid : MonoBehaviour {
                         pos.z = hexRadius * 3.0f / 2.0f * r;
 
                         tile = CreateHexGO(pos, ("Hex[" + q + "," + r + "," + (-q - r).ToString() + "]"));
-                        tile.index = new CubeIndex(q, r, -q - r);
-                        grid.Add(tile.index.ToString(), tile);
+                        tile.Index = new CubeIndex(q, r, -q - r);
+                        grid.Add(tile.Index.ToString(), tile);
                     }
                 }
 
@@ -282,8 +285,8 @@ public class HexGrid : MonoBehaviour {
                 }
 
                 tile = CreateHexGO(pos, ("Hex[" + q + "," + r + "," + (-q - r).ToString() + "]"));
-                tile.index = new CubeIndex(q, r, -q - r);
-                grid.Add(tile.index.ToString(), tile);
+                tile.Index = new CubeIndex(q, r, -q - r);
+                grid.Add(tile.Index.ToString(), tile);
             }
         }
     }
@@ -311,8 +314,8 @@ public class HexGrid : MonoBehaviour {
                 }
 
                 tile = CreateHexGO(pos, ("Hex[" + q + "," + r + "," + (-q - r).ToString() + "]"));
-                tile.index = new CubeIndex(q, r, -q - r);
-                grid.Add(tile.index.ToString(), tile);
+                tile.Index = new CubeIndex(q, r, -q - r);
+                grid.Add(tile.Index.ToString(), tile);
             }
         }
     }

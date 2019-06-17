@@ -5,10 +5,12 @@ using UnityEngine;
 namespace Bubbles.Core {
     public class BubbleSpawner : IBubbleSpawner {
         private Bubble.Pool bubblePool;
+        //private FakeBubble.Pool fakeBubblePool;
         private ScoreRange scoreRange;
-        
-        public BubbleSpawner(Bubble.Pool bubblePool, ScoreRange scoreRange) {
+
+        public BubbleSpawner(Bubble.Pool bubblePool, /*FakeBubble.Pool fakeBubblePool, */ScoreRange scoreRange) {
             this.bubblePool = bubblePool;
+            //this.fakeBubblePool = fakeBubblePool;
             this.scoreRange = scoreRange;
         }
 
@@ -21,6 +23,10 @@ namespace Bubbles.Core {
             var bubble = bubblePool.Spawn(score);
             return bubble;
         }
+
+        //public FakeBubble Create(Bubble bubble) {
+            //return fakeBubblePool.Spawn(bubble);
+        //}
 
         public void Return(Bubble bubble) {
             bubblePool.Despawn(bubble);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bubble
   - Tile
+  - Top
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1997510377
+    locked: 0
+  - name: BubblesMain
+    uniqueID: 2113538657
+    locked: 0
+  - name: Foreground
+    uniqueID: 4065721863
     locked: 0

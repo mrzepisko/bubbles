@@ -2,7 +2,17 @@
 using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
-	public CubeIndex index;
+	[SerializeField] private CubeIndex index;
+	[SerializeField] private OffsetIndex offsetIndex;
+
+	public CubeIndex Index {
+		get { return index; }
+		set {
+			index = value;
+			offsetIndex = CubeToOddPointy(index);
+		}
+	}
+	public OffsetIndex OffsetIndex => offsetIndex;
 
 	public static Vector3 Corner(Vector3 origin, float radius, int corner, HexOrientation orientation){
 		float angle = 60 * corner;
@@ -118,7 +128,7 @@ public class Tile : MonoBehaviour {
 
 	public static Tile operator+ (Tile one, Tile two){
 		Tile ret = new Tile();
-		ret.index = one.index + two.index;
+		ret.Index = one.Index + two.Index;
 		return ret;
 	}
 

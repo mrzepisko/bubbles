@@ -5,7 +5,13 @@ using UnityEngine;
 namespace Bubbles.Core {
     public class BubbleMovement : MonoBehaviour, IBubbleMovement {
         [SerializeField] private float moveSpeed;
+        [SerializeField] private float dropTime;
+        [SerializeField] private float drag;
+        [SerializeField] private float explForce;
+        [SerializeField] private Vector3 gravity;
+        
         private Coroutine moving;
+        private Coroutine falling;
 
         public void MoveTowards(Vector3 target) {
             StopMoving();
@@ -26,6 +32,15 @@ namespace Bubbles.Core {
             if (moving != null) {
                 StopCoroutine(moving);
             }
+
+            if (falling != null) {
+                StopCoroutine(falling);
+            }
+        }
+
+        public void Drop() {
+            StopMoving();
+            falling = StartCoroutine(DropSmooth());
         }
 
         IEnumerator MoveTowardsSmooth(Vector3 target) {
@@ -35,6 +50,19 @@ namespace Bubbles.Core {
             }
 
             Teleport(target);
+        }
+
+        IEnumerator DropSmooth() {
+            dropTime = 3f;
+            Vector3 velocity = Random.insideUnitCircle * explForce;
+            Vector3 gravVelocity = Vector3.zero;
+            for (float t = 0; t < dropTime; t += Time.deltaTime) {
+                float dt = Time.deltaTime;
+                transform.position += (velocity) * dt + gravVelocity; 
+                velocity *= (1 - drag);
+                gravVelocity += gravity * dt;
+                yield return new WaitForSeconds(dt);
+            }
         }
     }
 }

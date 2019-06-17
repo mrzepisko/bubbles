@@ -1,21 +1,18 @@
+using Bubbles.Core;
 using Bubbles.Core.Abstract;
 using UnityEngine;
 using Zenject;
 
 namespace Bubbles.Gameplay {
-    public class Go : MonoBehaviour {
+    public class GoTest : MonoBehaviour {
         private IGridManager grid;
 
-        [Inject]
-        private void Construct(IGridManager grid) {
-            this.grid = grid;
+        private void Awake() {
+            grid = GetComponentInChildren<GridManagerTest>();
         }
 
         private void Start() {
             grid.FillGrid();
         }
-
-        
-        
     }
 }

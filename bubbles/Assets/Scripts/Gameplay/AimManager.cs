@@ -6,16 +6,17 @@ using Zenject;
 namespace Bubbles.Gameplay {
     public class AimManager : MonoBehaviour {
         private const string BubbleTag = "Bubble";
+        private const string FirstRowTag = "Top";
         [SerializeField] private float minY = 1f;
         [SerializeField] private Transform shootFrom;
-        
+
         private IBubbleCannon cannon;
         private IUserInput input;
         private IGridWrapper grid;
 
         private Vector3[] steps;
         private Tile futureTile;
-        
+
         public Vector3[] Steps => steps;
         public Tile FutureTile => futureTile;
 
@@ -38,7 +39,7 @@ namespace Bubbles.Gameplay {
             input.ButtonUp -= InputOnButtonUp;
             input.ButtonDown -= InputOnButtonDown;
         }
-        
+
 
         private void InputOnButtonDown(Vector3 position) {
             futureTile = FindTile(position);
@@ -72,12 +73,15 @@ namespace Bubbles.Gameplay {
                     steps[0] = steps[1] = steps[2] = shootFrom.position;
                     return null;
                 }
+
                 steps[0] = shootFrom.position;
                 steps[1] = hit.point;
-                
+
                 if (hit.transform.CompareTag(BubbleTag)) {
                     steps[2] = steps[1];
                     return SelectNeighbour(hit);
+                } else if (hit.transform.CompareTag(FirstRowTag)) {
+                    return grid.Nearest(hit.point);
                 } else {
                     RaycastHit hit2nd;
                     var newDirection = direction;
@@ -90,18 +94,50 @@ namespace Bubbles.Gameplay {
                         return null;
                     }
                 }
-                
             }
 
             return null;
         }
 
         private Tile SelectNeighbour(RaycastHit hit) {
-            var offset = (hit.point - hit.transform.position).x;
-            var dir = offset < 0 ? HexDirection.SE : HexDirection.SW;
+            var offset = hit.point.x - hit.transform.position.x;
+            var offsetY = hit.point.y - hit.transform.position.y;
+            HexDirection dir, dir2nd;
+            if (offset < 0f) {
+                if (offsetY < 0f) {
+                    dir = HexDirection.SE;
+                    dir2nd = HexDirection.SE;
+                } else {
+                    dir = HexDirection.E;
+                    dir2nd = HexDirection.SE;
+                }
+            } else {
+                if (offsetY < 0f) {
+                    dir = HexDirection.SW;
+                    dir2nd = HexDirection.SW;
+                } else {
+                    dir = HexDirection.W;
+                    dir2nd = HexDirection.SW;
+                }
+            }
+
+            //top
+            if (hit.transform.CompareTag(FirstRowTag)) {
+                return grid.Nearest(hit.point);
+            }
+            //bubble hit
             var bubble = hit.transform.GetComponentInParent<Bubble>();
             var tileHit = grid.Get(bubble);
-            return grid.Neighbour(tileHit, dir);
+            var newTile = grid.Neighbour(tileHit, dir);
+            if (grid.Get(newTile)) {
+                newTile = grid.Neighbour(tileHit, dir2nd);
+            }
+
+            if (grid.Get(newTile)) {
+                return null;
+            }
+
+            return newTile;
         }
 
         #if UNITY_EDITOR

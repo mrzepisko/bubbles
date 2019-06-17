@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583589ece935b934b983d020a2baa9c9, type: 3}
+  m_Name: DefaultConfig
+  m_EditorClassIdentifier: 
+  maxDistance: 10
+  items:
+  - background: {r: 0.67115533, g: 0.2991723, b: 0.764151, a: 1}
+  - background: {r: 0.909804, g: 0.3529412, b: 0.53333336, a: 1}
+  - background: {r: 0.89019614, g: 0.34509805, b: 0.21568629, a: 1}
+  - background: {r: 0.9960785, g: 0.7294118, b: 0.1764706, a: 1}
+  - background: {r: 0.882353, g: 0.5137255, b: 0.2509804, a: 1}
+  - background: {r: 0.45882356, g: 0.8000001, b: 0.34509805, a: 1}
+  - background: {r: 0.3137255, g: 0.81568635, b: 0.64705884, a: 1}
+  - background: {r: 0.4039216, g: 0.73333335, b: 0.8980393, a: 1}
+  - background: {r: 0.4431373, g: 0.5686275, b: 0.83921576, a: 1}
+  - background: {r: 0.9098039, g: 0.5977412, b: 0.6988319, a: 1}

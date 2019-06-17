@@ -50,6 +50,7 @@ namespace Bubbles.Gameplay {
         }
 
         private void InputOnButtonUp(Vector3 position) {
+            
             var tile = FindTile(position);
             if (tile != null) {
                 cannon.ShootAt(tile);

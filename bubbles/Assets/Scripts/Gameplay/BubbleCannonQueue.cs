@@ -8,7 +8,8 @@ namespace Bubbles.Gameplay {
     public class BubbleCannonQueue : MonoBehaviour, IBubbleCannon {
         const int QueueSize = 3;
         [SerializeField] private Transform queueHook;
-        
+        [SerializeField] private float chainingDelay = 1f;
+
         private IBubbleSpawner bubbleSpawner;
         private IGridWrapper grid;
         private IScoreManager scoreManager;
@@ -16,6 +17,8 @@ namespace Bubbles.Gameplay {
         private Queue<Bubble> queue;
         private Bubble nextBubble;
 
+        private bool allow;
+        
         [Inject]
         private void Construct(IBubbleSpawner bubbleSpawner, IGridWrapper grid, IScoreManager scoreManager) {
             this.bubbleSpawner = bubbleSpawner;
@@ -23,6 +26,7 @@ namespace Bubbles.Gameplay {
             this.scoreManager = scoreManager;
             queue = new Queue<Bubble>(QueueSize);
             Prepare();
+            allow = true;
         }
 
         private void OnEnable() {
@@ -40,12 +44,22 @@ namespace Bubbles.Gameplay {
             queue.Enqueue(bubbleSpawner.CreateRandom());
             return queue.Dequeue();
         }
-        
+
         public void ShootAt(Tile tile) {
-            if (grid.Attach(nextBubble, tile)) {
-                scoreManager.Attached(nextBubble);
-                LoadCannon();   
+            if (allow && grid.Attach(nextBubble, tile)) {
+                StartCoroutine(Attaching(nextBubble));
+                LoadCannon();
             }
+        }
+
+        private System.Collections.IEnumerator Attaching(Bubble bubble) {
+            allow = false;
+            Bubble checkBubble = bubble;
+            do {
+                checkBubble = scoreManager.Attached(checkBubble);
+                yield return new WaitForSeconds(chainingDelay);
+            } while (checkBubble != null);
+            allow = true;
         }
 
         public Bubble LoadedBubble() {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Bubbles.Core {
     public class ScoreCalculator : IScoreCalculator {
+        private const int IncrementBaseEveryLevels = 3;
         private readonly ScoreRange scoreRange;
         private readonly IDataManager dataManager;
 
@@ -30,6 +31,7 @@ namespace Bubbles.Core {
             while (pointsToNextLevel < data.Points) {
                 pointsCurrentLevel = pointsToNextLevel;
                 data.Level++;
+                scoreRange.BaseExponent = data.Level / IncrementBaseEveryLevels;
                 pointsToNextLevel = PointsToReach(data.Level);
             }
             dataManager.Save(data);
@@ -37,8 +39,8 @@ namespace Bubbles.Core {
         }
 
         long PointsToReach(int level) {
-            long first = 2.Pow(scoreRange.BaseExponent);
-            long last = 2.Pow(scoreRange.BaseExponent + scoreRange.ExplosionExponent);
+            long first = 2.Pow(scoreRange.BaseExponent) * scoreRange.ExplosionsPerLevel;
+            long last = 2.Pow(scoreRange.BaseExponent + scoreRange.ExplosionExponent) * scoreRange.ExplosionsPerLevel;
             long total = ((first + last) / 2L) * (long) level;
             return total;
         }

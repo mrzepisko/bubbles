@@ -18,8 +18,8 @@ namespace Bubbles.Core {
         private readonly IGridManager gridManager;
         private readonly ScoreRange scoreRange;
 
-        public ScoreManager(IGridWrapper grid, IBubbleSpawner spawner, IScoreCalculator calculator, 
-                IBubbleCollector collector, IBubbleExploder exploder, IGridManager gridManager, ScoreRange scoreRange) {
+        public ScoreManager(IGridWrapper grid, IBubbleSpawner spawner, IScoreCalculator calculator,
+            IBubbleCollector collector, IBubbleExploder exploder, IGridManager gridManager, ScoreRange scoreRange) {
             this.grid = grid;
             this.spawner = spawner;
             this.calculator = calculator;
@@ -29,13 +29,16 @@ namespace Bubbles.Core {
             this.scoreRange = scoreRange;
         }
 
-        public void Attached(Bubble bubble) {
+        public Bubble Attached(Bubble bubble) {
             var toJoin = collector.ScoreNeighbours(bubble);
-            if (toJoin.Count <= 1) return; //nothing to join
-            
+            if (toJoin.Count <= 1) {
+                CheckRowCount();
+                return null; //nothing to join
+            }
+
             IBubbleScore score = calculator.CalculateScore(bubble.Score, toJoin.Count);
             Tile bestTile = collector.SelectBestTile(toJoin, score);
-            
+
             //detach old bubbles
             foreach (var bb in toJoin) {
                 bb.Movement.MoveTowards(bestTile.transform.position);
@@ -44,26 +47,31 @@ namespace Bubbles.Core {
 
             //create new bubble 
             var newBubble = spawner.Create(score);
-            
+
             #if UNITY_EDITOR
             UnityEditor.EditorGUIUtility.PingObject(newBubble.gameObject);
             #endif
-            
+
             grid.Insert(newBubble, bestTile);
 
             foreach (var toDrop in FindLooseBubbles(toJoin)) {
                 toDrop.Movement.Drop();
                 toDrop.StartCoroutine(DelayReturn(toDrop, DelayReturnTime));
             }
-            
+
             Debug.Log($"Collected {score.PointsString} points");
 
             if (newBubble.Score.Exponent > scoreRange.ExplosionExponent) {
                 exploder.Explode(newBubble);
-            } else { //continue chain
-                Attached(newBubble);
+                CheckRowCount();
+                return null;
+            } else {
+                //continue chain
+                return newBubble;
             }
+        }
 
+        private void CheckRowCount() {
             if (grid.Rows < MaxRowCount) {
                 gridManager.InsertNewRow();
             }
@@ -71,7 +79,8 @@ namespace Bubbles.Core {
 
         List<Bubble> FindLooseBubbles(HashSet<Bubble> toJoin) {
             List<Bubble> toDrop = new List<Bubble>();
-            foreach (var bubble in grid.Bubbles) { //TODO optimize
+            foreach (var bubble in grid.Bubbles) {
+                //TODO optimize
                 if (!IsAttached(bubble)) {
                     toDrop.Add(bubble);
                 }
@@ -88,16 +97,18 @@ namespace Bubbles.Core {
             HexDirection.NW,
             HexDirection.NE,
         };
-        
+
         bool IsAttached(Bubble bubble, HashSet<Bubble> alreadyChecked = null) {
             if (bubble == null) return false;
             if (alreadyChecked == null) alreadyChecked = new HashSet<Bubble>();
             alreadyChecked.Add(bubble);
             //check self
             var cubeIndex = grid.Get(bubble).Index;
-            if (cubeIndex.y == 0) { // verified
+            if (cubeIndex.y == 0) {
+                // verified
                 return true;
             }
+
             //check others
             foreach (var direction in looseCheck) {
                 var checkBubble = grid.Neighbour(bubble, direction);
@@ -105,6 +116,7 @@ namespace Bubbles.Core {
                     return true;
                 }
             }
+
             return false;
         }
 

@@ -7,12 +7,12 @@ using Zenject;
 
 namespace Bubbles.Gameplay {
     public class BubbleView : MonoBehaviour, IBubbleView {
-        [SerializeField] private float suffixOffset = .1f;
         [Header("Cached components")]
         [SerializeField] private SpriteFont font;
         [SerializeField] private SpriteRenderer background;
         [SerializeField] private SpriteRenderer text;
         [SerializeField] private SpriteRenderer suffix;
+        [SerializeField] private SpriteRenderer outline;
         
         private BubbleConfig config;
         private BubbleConfigItem current;
@@ -26,7 +26,7 @@ namespace Bubbles.Gameplay {
 
         public void Refresh(IBubbleScore score) {
             current = config.Get(score.Exponent);
-            background.color = current.Background;
+            background.color = outline.color = current.Background;
             var valueStr = Mathf.Pow(2, score.Exponent % 10).ToString("0");
             var textConf = font[valueStr];
             var suffixConf =GetSuffix(score);
@@ -37,8 +37,15 @@ namespace Bubbles.Gameplay {
             Vector3 suffixOffset = Vector3.right * (textConf.Width + suffixConf.Width) / 2f;
             text.transform.localPosition = textPosition;
             suffix.transform.position = text.transform.position + suffixOffset;// + suffixOffset;
+            ShowOutline(score.Exponent);
         }
 
+        private void ShowOutline(int exponent) {
+            if (exponent / 10 % 2 > 0) {
+                outline.color = Color.white;
+            }
+        }         
+        
         private SpriteFontItem GetSuffix(IBubbleScore score) {
             var check = score.Exponent / 10;
             string suffix;

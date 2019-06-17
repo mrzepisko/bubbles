@@ -23,20 +23,21 @@ namespace Bubbles.Core {
             }
         }
 
-        private void FillRow(int q, int r) {
+        private void FillRow(int q, int r, Vector3 offset = default) {
             Tile tile = grid.TileAt(q, r);
             while (tile != null) {
                 var bubble = spawner.CreateRandom();
-                grid.Insert(bubble, tile);
+                bubble.Movement.Teleport(tile.transform.position + offset);
+                grid.Attach(bubble, tile);
                 tile = grid.Neighbour(tile, HexDirection.E);
             }
         }
 
         public void InsertNewRow() {
-            var row = PrepareRow();
+//            var row = PrepareRow();
             grid.MoveRows(1);
-                FillRow(0, 0);
-                FillRow(0, -1);
+                FillRow(0, 0, Vector3.up * 1.7f);
+                FillRow(0, -1, Vector3.up * 1.7f);
         }
         
         private List<Bubble> PrepareRow() {

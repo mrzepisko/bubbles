@@ -33,6 +33,6 @@ namespace Bubbles.Gameplay {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(tile.transform.position, Vector3.one * 1.7f);
         }
+        #endif
     }
-    #endif
 }
